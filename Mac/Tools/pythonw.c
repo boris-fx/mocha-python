@@ -24,64 +24,42 @@
 #include <string.h>
 #include <errno.h>
 #include <err.h>
-#include <dlfcn.h>
 #include <stdlib.h>
+#include <limits.h>
 
 
 extern char** environ;
 
-/*
- * Locate the python framework by looking for the
- * library that contains Py_Initialize.
- *
- * In a regular framework the structure is:
- *
- *    Python.framework/Versions/2.7
- *              /Python
- *              /Resources/Python.app/Contents/MacOS/Python
- *
- * In a virtualenv style structure the expected
- * structure is:
- *
- *    ROOT
- *       /bin/pythonw
- *       /.Python   <- the dylib
- *       /.Resources/Python.app/Contents/MacOS/Python
- *
- * NOTE: virtualenv's are not an officially supported
- * feature, support for that structure is provided as
- * a convenience.
- */
-static char* get_python_path(void)
+// Inspired by http://stackoverflow.com/a/1634398/2080453
+static const char *last_strstr(const char *haystack, const char *needle)
 {
-    size_t len;
-    Dl_info info;
-    char* end;
-    char* g_path;
+   if (!haystack || !needle) {
+      return NULL; // NULL in NULL out
+   }
+   if (*needle == '\0') {
+       return haystack + strlen(haystack);
+   }
+   const char *result = NULL;
+   for (;;) {
+       const char *p = strstr(haystack, needle);
+       if (p == NULL)
+           break;
+       result = p;
+       haystack = p + 1;
+   }
+   return result;
+}
 
-    if (dladdr(Py_Initialize, &info) == 0) {
-        return NULL;
-    }
-
-    len = strlen(info.dli_fname);
-
-    g_path = malloc(len+60);
-    if (g_path == NULL) {
-        return NULL;
-    }
-
-    strcpy(g_path, info.dli_fname);
-    end = g_path + len - 1;
-    while (end != g_path && *end != '/') {
-        end --;
-    }
-    end++;
-    if (*end == '.') {
-        end++;
-    }
-    strcpy(end, "Resources/Python.app/Contents/MacOS/" PYTHONFRAMEWORK);
-
-    return g_path;
+// Returns an absolute PYTHONHOME value. Caller should free() the memory.
+static char * get_python_home( const char * booststrapperPath )
+{
+   char absBootstrapperName[ PATH_MAX ];
+   realpath( booststrapperPath, absBootstrapperName );
+   int len = last_strstr( absBootstrapperName, "/bin/" ) - absBootstrapperName;
+   char * realPythonHome = malloc( len + 1 );
+   strncpy( realPythonHome, absBootstrapperName, len );
+   realPythonHome[ len ] = 0;
+   return realPythonHome;
 }
 
 #ifdef HAVE_SPAWN_H
@@ -133,7 +111,6 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
         /* NOTREACHTED */
     }
 
-
     /*
      * Set flag that causes posix_spawn to behave like execv
      */
@@ -146,8 +123,18 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
 #endif
 
 int
-main(int argc, char **argv) {
-    char* exec_path = get_python_path();
+main(int argc, char **argv)
+{
+    char * pythonHome = get_python_home( argv[0] );
+    const char relativePath[] = "/Resources/Python.app/Contents/MacOS/Python";
+    int len = strlen( pythonHome );
+    char * exec_path = malloc( len + sizeof( relativePath ) );
+    strcpy( exec_path, pythonHome );
+    strcat( exec_path + len, relativePath );
+
+    setenv( "PYTHONHOME", pythonHome, 1 /*overwrite*/ );
+
+    free( pythonHome );
 
     /*
      * Let argv[0] refer to the new interpreter. This is needed to
