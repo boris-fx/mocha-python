@@ -36,12 +36,12 @@
     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
     <bsddbDir>$(ExternalsDir)bsddb-4.7.25.0</bsddbDir>
     <opensslDir>$(ExternalsDir)openssl-1.0.2k\</opensslDir>
-    <opensslIncludeDir>$(opensslDir)include32</opensslIncludeDir>
+    <opensslIncludeDir>$(opensslDir)win_x86_64\include</opensslIncludeDir>
     <opensslIncludeDir Condition="'$(ArchName)' == 'amd64'">$(opensslDir)include64</opensslIncludeDir>
     <nasmDir>$(ExternalsDir)\nasm-2.11.06\</nasmDir>
 
     <!-- Suffix for all binaries when building for debug -->
-    <PyDebugExt Condition="'$(PyDebugExt)' == '' and $(Configuration) == 'Debug'">_d</PyDebugExt>
+    <PyDebugExt Condition="'$(PyDebugExt)' == '' and $(Configuration) == 'Debug'"></PyDebugExt>
 
     <!-- Full path of the resulting python.exe binary -->
     <PythonExe Condition="'$(PythonExe)' == ''">$(BuildPath)python$(PyDebugExt).exe</PythonExe>

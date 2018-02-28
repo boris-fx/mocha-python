@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     printf("#define PYTHON_DLL_NAME \"python%d%d.dll\"\n",
            PY_MAJOR_VERSION, PY_MINOR_VERSION);
     printf("#else\n");
-    printf("#define PYTHON_DLL_NAME \"python%d%d_d.dll\"\n",
+    printf("#define PYTHON_DLL_NAME \"python%d%d.dll\"\n",
            PY_MAJOR_VERSION, PY_MINOR_VERSION);
     printf("#endif\n");
     return 0;

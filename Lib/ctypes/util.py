@@ -40,8 +40,7 @@ if os.name == "nt":
             clibname = 'msvcr%d' % (version * 10)
 
         # If python was built with in debug mode
-        import imp
-        if imp.get_suffixes()[0][0] == '_d.pyd':
+        if hasattr(sys, 'gettotalrefcount'):
             clibname += 'd'
         return clibname+'.dll'
 

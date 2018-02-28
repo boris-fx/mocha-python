@@ -16,11 +16,7 @@ extern ULONG_PTR _Py_ActivateActCtx();
 void _Py_DeactivateActCtx(ULONG_PTR cookie);
 
 const struct filedescr _PyImport_DynLoadFiletab[] = {
-#ifdef _DEBUG
-    {"_d.pyd", "rb", C_EXTENSION},
-#else
     {".pyd", "rb", C_EXTENSION},
-#endif
     {0, 0}
 };
 
@@ -248,11 +244,7 @@ dl_funcptr _PyImport_GetDynLoadFunc(const char *fqname, const char *shortname,
         } else {
             char buffer[256];
 
-#ifdef _DEBUG
-            PyOS_snprintf(buffer, sizeof(buffer), "python%d%d_d.dll",
-#else
             PyOS_snprintf(buffer, sizeof(buffer), "python%d%d.dll",
-#endif
                           PY_MAJOR_VERSION,PY_MINOR_VERSION);
             import_python = GetPythonImport(hDLL);
 
