@@ -12,11 +12,7 @@
 #include "patchlevel.h"
 #include <windows.h>
 
-#ifdef _DEBUG
-#define PYD_DEBUG_SUFFIX "_d"
-#else
 #define PYD_DEBUG_SUFFIX ""
-#endif
 
 #ifdef PYD_PLATFORM_TAG
 #define PYD_TAGGED_SUFFIX PYD_DEBUG_SUFFIX ".cp" Py_STRINGIFY(PY_MAJOR_VERSION) Py_STRINGIFY(PY_MINOR_VERSION) "-" PYD_PLATFORM_TAG ".pyd"
@@ -135,11 +131,7 @@ static char *GetPythonImport (HINSTANCE hModule)
                 /* Ensure python prefix is followed only
                    by numbers to the end of the basename */
                 pch = import_name + 6;
-#ifdef _DEBUG
-                while (*pch && pch[0] != '_' && pch[1] != 'd' && pch[2] != '.') {
-#else
                 while (*pch && *pch != '.') {
-#endif
                     if (*pch >= '0' && *pch <= '9') {
                         pch++;
                     } else {
@@ -256,11 +248,7 @@ _Py_COMP_DIAG_POP
             char buffer[256];
 
             PyOS_snprintf(buffer, sizeof(buffer),
-#ifdef _DEBUG
-                          "python%d%d_d.dll",
-#else
                           "python%d%d.dll",
-#endif
                           PY_MAJOR_VERSION,PY_MINOR_VERSION);
             import_python = GetPythonImport(hDLL);
 

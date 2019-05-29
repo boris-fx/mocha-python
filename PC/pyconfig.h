@@ -267,9 +267,7 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
                         /* So MSVC users need not specify the .lib
                         file in their Makefile (other compilers are
                         generally taken care of by distutils.) */
-#                       if defined(_DEBUG)
-#                               pragma comment(lib,"python39_d.lib")
-#                       elif defined(Py_LIMITED_API)
+#                       if defined(Py_LIMITED_API)
 #                               pragma comment(lib,"python3.lib")
 #                       else
 #                               pragma comment(lib,"python39.lib")
@@ -309,10 +307,6 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #       else
 #       define SIZEOF_TIME_T 4
 #       endif
-#endif
-
-#ifdef _DEBUG
-#       define Py_DEBUG
 #endif
 
 

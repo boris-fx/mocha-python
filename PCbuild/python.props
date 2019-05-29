@@ -70,7 +70,7 @@
     <zlibDir>$(ExternalsDir)\zlib-1.2.12\</zlibDir>
     
     <!-- Suffix for all binaries when building for debug -->
-    <PyDebugExt Condition="'$(PyDebugExt)' == '' and $(Configuration) == 'Debug'">_d</PyDebugExt>
+    <PyDebugExt></PyDebugExt>
     
     <!-- Suffix for versions/keys when building with test markers -->
     <PyTestExt Condition="$(UseTestMarker) == 'true'">-test</PyTestExt>
