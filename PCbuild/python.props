@@ -49,14 +49,14 @@
     <sqlite3Dir>$(ExternalsDir)sqlite-3.31.1.0\</sqlite3Dir>
     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
     <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-    <opensslDir>$(ExternalsDir)openssl-1.1.1g\</opensslDir>
-    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1g\$(ArchName)\</opensslOutDir>
-    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>
+    <opensslIncludeDir>$(opensslDir)\win_x86_64\include</opensslIncludeDir>
+    <opensslOutDir>$(opensslDir)\win_x86_64\release\shared\lib</opensslOutDir>
+    <opensslOutDir Condition="$(Configuration) == 'Debug'">$(opensslDir)\win_x86_64\debug\shared\lib</opensslOutDir>
     <nasmDir>$(ExternalsDir)\nasm-2.11.06\</nasmDir>
     <zlibDir>$(ExternalsDir)\zlib-1.2.11\</zlibDir>
     
     <!-- Suffix for all binaries when building for debug -->
-    <PyDebugExt Condition="'$(PyDebugExt)' == '' and $(Configuration) == 'Debug'">_d</PyDebugExt>
+    <PyDebugExt></PyDebugExt>
     
     <!-- Suffix for versions/keys when building with test markers -->
     <PyTestExt Condition="$(UseTestMarker) == 'true'">-test</PyTestExt>
