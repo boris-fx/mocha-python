@@ -53,7 +53,9 @@
     <opensslOutDir>$(opensslDir)\win_x86_64\release\shared\lib</opensslOutDir>
     <opensslOutDir Condition="$(Configuration) == 'Debug'">$(opensslDir)\win_x86_64\debug\shared\lib</opensslOutDir>
     <nasmDir>$(ExternalsDir)\nasm-2.11.06\</nasmDir>
-    <zlibDir>$(ExternalsDir)\zlib-1.2.11\</zlibDir>
+    <zlibIncludeDir>$(zlibDir)\include</zlibIncludeDir>
+    <zlibOutDir>$(zlibDir)\release\static\lib</zlibOutDir>
+    <zlibOutDir Condition="$(Configuration) == 'Debug'">$(zlibDir)\debug\static\lib</zlibOutDir>
     
     <!-- Suffix for all binaries when building for debug -->
     <PyDebugExt></PyDebugExt>

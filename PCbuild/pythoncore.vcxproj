@@ -50,7 +50,7 @@
   <PropertyGroup>
     <KillPython>true</KillPython>
     <RequirePGCFiles>true</RequirePGCFiles>
-    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(zlibDir)\zlib.h')">true</IncludeExternals>
+    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(zlibIncludeDir)\zlib.h')">true</IncludeExternals>
     <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
@@ -69,12 +69,14 @@
     <ClCompile>
       <AdditionalOptions>/Zm200  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
+      <AdditionalLibraryDirectories Condition="$(IncludeExternals)">$(zlibOutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>version.lib;shlwapi.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="$(IncludeExternals)">zlib1_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -215,17 +217,17 @@
     <ClInclude Include="..\Python\wordcode_helpers.h" />
   </ItemGroup>
   <ItemGroup Condition="$(IncludeExternals)">
-    <ClInclude Include="$(zlibDir)\crc32.h" />
-    <ClInclude Include="$(zlibDir)\deflate.h" />
-    <ClInclude Include="$(zlibDir)\inffast.h" />
-    <ClInclude Include="$(zlibDir)\inffixed.h" />
-    <ClInclude Include="$(zlibDir)\inflate.h" />
-    <ClInclude Include="$(zlibDir)\inftrees.h" />
-    <ClInclude Include="$(zlibDir)\trees.h" />
-    <ClInclude Include="$(zlibDir)\zconf.h" />
-    <ClInclude Include="$(zlibDir)\zconf.in.h" />
-    <ClInclude Include="$(zlibDir)\zlib.h" />
-    <ClInclude Include="$(zlibDir)\zutil.h" />
+    <ClInclude Include="$(zlibIncludeDir)\crc32.h" />
+    <ClInclude Include="$(zlibIncludeDir)\deflate.h" />
+    <ClInclude Include="$(zlibIncludeDir)\inffast.h" />
+    <ClInclude Include="$(zlibIncludeDir)\inffixed.h" />
+    <ClInclude Include="$(zlibIncludeDir)\inflate.h" />
+    <ClInclude Include="$(zlibIncludeDir)\inftrees.h" />
+    <ClInclude Include="$(zlibIncludeDir)\trees.h" />
+    <ClInclude Include="$(zlibIncludeDir)\zconf.h" />
+    <ClInclude Include="$(zlibIncludeDir)\zconf.in.h" />
+    <ClInclude Include="$(zlibIncludeDir)\zlib.h" />
+    <ClInclude Include="$(zlibIncludeDir)\zutil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Modules\_abc.c" />
@@ -409,17 +411,6 @@
   </ItemGroup>
   <ItemGroup Condition="$(IncludeExternals)">
     <ClCompile Include="..\Modules\zlibmodule.c" />
-    <ClCompile Include="$(zlibDir)\adler32.c" />
-    <ClCompile Include="$(zlibDir)\compress.c" />
-    <ClCompile Include="$(zlibDir)\crc32.c" />
-    <ClCompile Include="$(zlibDir)\deflate.c" />
-    <ClCompile Include="$(zlibDir)\infback.c" />
-    <ClCompile Include="$(zlibDir)\inffast.c" />
-    <ClCompile Include="$(zlibDir)\inflate.c" />
-    <ClCompile Include="$(zlibDir)\inftrees.c" />
-    <ClCompile Include="$(zlibDir)\trees.c" />
-    <ClCompile Include="$(zlibDir)\uncompr.c" />
-    <ClCompile Include="$(zlibDir)\zutil.c" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\PC\dl_nt.c" />
