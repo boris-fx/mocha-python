@@ -437,6 +437,9 @@ static inline void _Py_DECREF(
 #  define Py_DECREF(op) _Py_DECREF(_PyObject_CAST(op))
 #endif
 
+// External DECREF function for Mocha to take the address of and use by function
+// pointer in ScriptExecutor. Not used by any code in Python itself.
+PyAPI_FUNC(void) external_DECREF(void* op);
 
 /* Safely decref `op` and set `op` to NULL, especially useful in tp_clear
  * and tp_dealloc implementations.
