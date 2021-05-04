@@ -155,6 +155,11 @@ _Py_DecRef(PyObject *o)
     Py_DECREF(o);
 }
 
+void external_DECREF(void* op)
+{
+    _Py_DECREF(_PyObject_CAST(op));
+}
+
 PyObject *
 PyObject_Init(PyObject *op, PyTypeObject *tp)
 {
