@@ -7538,6 +7538,7 @@ $as_echo "$CC" >&6; }
               UNIVERSAL_ARCH_FLAGS="-arch arm64"
               LIPO_32BIT_FLAGS=""
               ARCH_RUN_32BIT="true"
+              ;;
             3-way)
                UNIVERSAL_ARCH_FLAGS="-arch i386 -arch ppc -arch x86_64"
                LIPO_32BIT_FLAGS="-extract ppc7400 -extract i386"
