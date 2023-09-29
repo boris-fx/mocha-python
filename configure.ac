@@ -1128,6 +1128,17 @@ fi
 
 AC_MSG_CHECKING(LDLIBRARY)
 
+# with-shared-dyld-library-path
+AC_MSG_CHECKING(for --with-shared-dyld-library-path)
+AC_ARG_WITH(shared-dyld-library-path,
+    AS_HELP_STRING([--with-shared-dyld-library-pathh=<colon separated list of directories for DYLD_LIBRARY_PATH>],
+                   [Set DYLD_LIBRARY_PATH when building shared externsions]),
+    [SHARED_DYLD_LIBRARY_PATH="$withval"],
+    []
+)
+AC_MSG_RESULT($SHARED_DYLD_LIBRARY_PATH)
+AC_SUBST([SHARED_DYLD_LIBRARY_PATH])
+
 # MacOSX framework builds need more magic. LDLIBRARY is the dynamic
 # library that we build, but we do not want to link against it (we
 # will find it with a -framework option). For this reason there is an
@@ -1138,6 +1149,10 @@ if test "$enable_framework"
 then
   LDLIBRARY='$(PYTHONFRAMEWORKDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)'
   RUNSHARED=DYLD_FRAMEWORK_PATH=`pwd`${DYLD_FRAMEWORK_PATH:+:${DYLD_FRAMEWORK_PATH}}
+  if test "$SHARED_DYLD_LIBRARY_PATH"
+  then
+    RUNSHARED="$RUNSHARED DYLD_LIBRARY_PATH=$SHARED_DYLD_LIBRARY_PATH"
+  fi
   BLDLIBRARY=''
 else
   BLDLIBRARY='$(LDLIBRARY)'

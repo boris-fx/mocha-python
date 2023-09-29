@@ -623,6 +623,7 @@ ac_includes_default="\
 #endif"
 
 ac_subst_vars='LTLIBOBJS
+SHARED_DYLD_LIBRARY_PATH
 OPENSSL_LDFLAGS
 OPENSSL_LIBS
 OPENSSL_INCLUDES
@@ -819,6 +820,7 @@ with_cxx_main
 with_suffix
 enable_shared
 enable_profiling
+with_shared_dyld_library_path
 with_pydebug
 with_trace_refs
 with_assertions
@@ -1515,6 +1517,9 @@ Optional Features:
   --enable-big-digits[=15|30]
                           use big digits (30 or 15 bits) for Python longs
                           (default is system-dependent)]
+  ---with-shared-dyld-library-path=DIRS
+                          Set DYLD_LIBRARY_PATH for building shared extensions
+                          DIRS: A colon separated list of directories that contain libraries. 
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -5938,6 +5943,19 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking LDLIBRARY" >&5
 $as_echo_n "checking LDLIBRARY... " >&6; }
 
+# with-shared-dyld-library-path
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for --with-shared-dyld-library-path" >&5
+$as_echo_n "checking for --with-shared-dyld-library-path.. " >&6; }
+# Check whether --with-shared-dyld-library-path was given.
+if test "${with_shared_dyld_library_path+set}" = set; then :
+  #withval=$with_dyld_library_path;
+  SHARED_DYLD_LIBRARY_PATH="$with_shared_dyld_library_path"
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $SHARED_DYLD_LIBRARY_PATH" >&5
+$as_echo "$SHARED_DYLD_LIBRARY_PATH" >&6; }
+
+
 # MacOSX framework builds need more magic. LDLIBRARY is the dynamic
 # library that we build, but we do not want to link against it (we
 # will find it with a -framework option). For this reason there is an
@@ -5948,6 +5966,10 @@ if test "$enable_framework"
 then
   LDLIBRARY='$(PYTHONFRAMEWORKDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)'
   RUNSHARED=DYLD_FRAMEWORK_PATH=`pwd`${DYLD_FRAMEWORK_PATH:+:${DYLD_FRAMEWORK_PATH}}
+  if test "$SHARED_DYLD_LIBRARY_PATH"
+  then
+    RUNSHARED="$RUNSHARED DYLD_LIBRARY_PATH=$SHARED_DYLD_LIBRARY_PATH"
+  fi
   BLDLIBRARY=''
 else
   BLDLIBRARY='$(LDLIBRARY)'

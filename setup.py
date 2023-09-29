@@ -1658,6 +1658,8 @@ class PyBuildExt(build_ext):
 
         # LZMA compression support.
         if self.compiler.find_library_file(self.lib_dirs, 'lzma'):
+            libfile = self.compiler.find_library_file(self.lib_dirs, 'lzma')
+            print(f'lzma: found {libfile}')
             self.add(Extension('_lzma', ['_lzmamodule.c'],
                                libraries=['lzma']))
         else:
