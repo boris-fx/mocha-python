@@ -16,10 +16,10 @@
     <OpenSSLDLLSuffix Condition="$(OpenSSLDLLSuffix) == ''">$(_DLLSuffix)</OpenSSLDLLSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <_SSLDLL Include="$(opensslOutDir)\libcrypto$(_DLLSuffix).dll" />
-    <_SSLDLL Include="$(opensslOutDir)\libcrypto$(_DLLSuffix).pdb" />
-    <_SSLDLL Include="$(opensslOutDir)\libssl$(_DLLSuffix).dll" />
-    <_SSLDLL Include="$(opensslOutDir)\libssl$(_DLLSuffix).pdb" />
+    <_SSLDLL Include="$(opensslOutDir)\libcrypto$(OpenSSLDLLSuffix).dll" />
+    <_SSLDLL Include="$(opensslOutDir)\libcrypto$(OpenSSLDLLSuffix).pdb" />
+    <_SSLDLL Include="$(opensslOutDir)\libssl$(OpenSSLDLLSuffix).dll" />
+    <_SSLDLL Include="$(opensslOutDir)\libssl$(OpenSSLDLLSuffix).pdb" />
   </ItemGroup>
   <Target Name="_CopySSLDLL"
           Inputs="@(_SSLDLL)"
