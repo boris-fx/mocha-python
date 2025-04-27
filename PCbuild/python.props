@@ -130,6 +130,7 @@
       <_Message>Failed to locate a Windows SDK installation.</_Message>
       <_Message>$(_Message) If the build fails, please use the Visual Studio Installer to install the Windows SDK.</_Message>
       <_Message>$(_Message) (Ignore the version number specified in the error message and select the latest.)</_Message>
+      <_Message>$(_Message) DefaultWindowsSDKVersion: $(DefaultWindowsSDKVersion)</_Message>
     </PropertyGroup>
     <Warning Text="$(_Message)" />
   </Target>
