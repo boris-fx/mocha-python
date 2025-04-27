@@ -12,7 +12,7 @@
     <ClCompile Include="..\Modules\_ssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(opensslIncludeDir)\applink.c">
+    <ClCompile Include="$(opensslIncludeDir)\openssl\applink.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
