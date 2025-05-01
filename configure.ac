@@ -6635,7 +6635,7 @@ AX_CHECK_OPENSSL([have_openssl=yes],[have_openssl=no])
 AS_VAR_IF([GNULD], [yes], [
   rpath_arg="-Wl,--enable-new-dtags,-rpath="
 ], [
-  rpath_arg="-Wl,-rpath="
+  rpath_arg="-Wl,-rpath,"
 ])
 
 AC_MSG_CHECKING(for --with-openssl-rpath)

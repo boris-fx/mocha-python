@@ -23173,7 +23173,7 @@ if test "x$GNULD" = xyes; then :
 
 else
 
-  rpath_arg="-Wl,-rpath="
+  rpath_arg="-Wl,-rpath,"
 
 fi
 
